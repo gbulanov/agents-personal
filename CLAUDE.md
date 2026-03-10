@@ -17,6 +17,7 @@ Skills are invoked with `/<skill-name>` in Claude Code:
 **DevOps & Infrastructure:**
 - `/terraform <plan|validate|fmt|new-module|import|migrate|debug>` — Terraform operations and code generation
 - `/k8s <manifest|debug|review|status|rollback|scale|logs>` — Kubernetes operations and debugging
+- `/kops <status|get|create|edit|update|upgrade|rolling-update|ig|drain|certs|etcd|addons|debug|export|delete>` — Full Kops cluster lifecycle management
 - `/aws <query|debug|iam|sg|logs|costs|whoami>` — AWS operations and resource management
 - `/incident <investigate|mitigate|postmortem|runbook>` — Incident response workflow
 - `/infra-review` — Review IaC for security, reliability, and best practices
@@ -37,6 +38,7 @@ Agents are specialized assistants that Claude delegates to automatically:
 - **sre** — Incident investigation, reliability assessment, monitoring review
 - **terraform-reviewer** — Terraform code review for security, cost, and best practices
 - **k8s-ops** — Cluster health, pod debugging, manifest review
+- **kops-manager** — Kops cluster operations, upgrades, troubleshooting, instance groups
 - **cloud-architect** — AWS architecture design, migration planning, trade-off analysis
 
 **General Development:**
@@ -52,6 +54,7 @@ Agents are specialized assistants that Claude delegates to automatically:
 ├── skills/                # Slash command definitions
 │   ├── terraform/         # /terraform
 │   ├── k8s/               # /k8s
+│   ├── kops/              # /kops
 │   ├── aws/               # /aws
 │   ├── incident/          # /incident
 │   ├── infra-review/      # /infra-review
@@ -66,6 +69,7 @@ Agents are specialized assistants that Claude delegates to automatically:
 │   ├── sre/
 │   ├── terraform-reviewer/
 │   ├── k8s-ops/
+│   ├── kops-manager/
 │   ├── cloud-architect/
 │   ├── code-reviewer/
 │   ├── debugger/
@@ -74,6 +78,7 @@ Agents are specialized assistants that Claude delegates to automatically:
 ├── rules/                 # Context-specific coding rules
 │   ├── terraform.md       # Terraform conventions (*.tf files)
 │   ├── kubernetes.md      # K8s manifest conventions (*.yaml)
+│   ├── kops.md            # Kops cluster management conventions
 │   ├── aws.md             # AWS infrastructure conventions
 │   ├── docker.md          # Dockerfile conventions
 │   ├── code-style.md      # General code style

@@ -50,6 +50,12 @@
       "Bash(docker ps *)",
       "Bash(docker images *)",
       "Bash(docker logs *)",
+      "Bash(kops get *)",
+      "Bash(kops validate *)",
+      "Bash(kops version *)",
+      "Bash(kops toolbox *)",
+      "Bash(kops rolling-update cluster * --dry-run)",
+      "Bash(kops update cluster * --dry-run)",
       "Read",
       "Glob",
       "Grep"
@@ -65,7 +71,8 @@
       "Bash(kubectl delete --all *)",
       "Bash(aws ec2 terminate-instances *)",
       "Bash(aws s3 rb *)",
-      "Bash(aws rds delete-*)"
+      "Bash(aws rds delete-*)",
+      "Bash(kops delete *)"
     ]
   },
   "hooks": {
