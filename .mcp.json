@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "_readme": {
+      "type": "http",
+      "url": "https://example.com/REPLACE_ME",
+      "_comment": "This is a template. Add your MCP servers below. Remove this entry."
+    }
+  }
+}

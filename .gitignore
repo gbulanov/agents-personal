@@ -1,0 +1,24 @@
+# Local settings (personal overrides, not shared)
+.claude/settings.local.json
+
+# Agent local memory
+.claude/agent-memory-local/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+secrets/
+*.key
+*.pem
