@@ -1,7 +1,7 @@
 # Personal Agent Agency
 
 A collection of reusable Claude Code agents and skills for DevOps, SRE, cloud engineering,
-and software development workflows.
+application development, and software engineering workflows.
 
 ## What This Repo Is
 
@@ -15,18 +15,18 @@ project to get a ready-made AI-powered development toolkit.
 Skills are invoked with `/<skill-name>` in Claude Code:
 
 **DevOps & Infrastructure:**
-- `/terraform <plan|validate|fmt|new-module|import|migrate|debug>` — Terraform operations and code generation
-- `/k8s <manifest|debug|review|status|rollback|scale|logs>` — Kubernetes operations and debugging
-- `/kops <status|get|create|edit|update|upgrade|rolling-update|ig|drain|certs|etcd|addons|debug|export|delete>` — Full Kops cluster lifecycle management
-- `/helm <status|diff|template|lint|debug|history|deps>` — Helm chart and release operations
-- `/aws <query|debug|iam|sg|logs|costs|whoami>` — AWS operations and resource management
-- `/iam <analyze|policy|role|audit|irsa>` — AWS IAM analysis and policy generation
-- `/incident <investigate|mitigate|postmortem|runbook>` — Incident response workflow
-- `/infra-review` — Review IaC for security, reliability, and best practices
-- `/cost-review` — Infrastructure cost optimization analysis
-- `/compliance <cis-aws|cis-k8s|soc2|pci|all>` — Compliance audit against security benchmarks
-- `/capacity <analyze|rightsize|forecast|nodes>` — Resource utilization and capacity planning
-- `/secrets <scan|audit|rotation|review>` — Secret leak detection and management audit
+- `/terraform <plan|validate|fmt|new-module|import|migrate|debug>` — Terraform operations
+- `/k8s <manifest|debug|review|status|rollback|scale|logs>` — Kubernetes operations
+- `/kops <status|get|create|edit|update|upgrade|rolling-update|ig|drain|certs|etcd|addons|debug|export|delete>` — Kops cluster lifecycle
+- `/helm <status|diff|template|lint|debug|history|deps>` — Helm operations
+- `/aws <query|debug|iam|sg|logs|costs|whoami>` — AWS operations
+- `/iam <analyze|policy|role|audit|irsa>` — IAM analysis
+- `/incident <investigate|mitigate|postmortem|runbook>` — Incident response
+- `/infra-review` — IaC security and reliability review
+- `/cost-review` — Cost optimization analysis
+- `/compliance <cis-aws|cis-k8s|soc2|pci|all>` — Compliance audits
+- `/capacity <analyze|rightsize|forecast|nodes>` — Capacity planning
+- `/secrets <scan|audit|rotation|review>` — Secret management audit
 - `/monitor <alerts|slo|dashboards|cloudwatch|review>` — Monitoring and observability
 - `/db <review|optimize|health|migration|connections>` — Database operations
 - `/docker <review|scan|harden|compose>` — Container security
@@ -35,23 +35,39 @@ Skills are invoked with `/<skill-name>` in Claude Code:
 - `/dr <audit|plan|runbook|test>` — Disaster recovery
 
 **Networking & Debugging:**
-- `/network-debug <source> cannot reach <target>` — Systematic network connectivity diagnosis
-- `/logs <k8s|cloudwatch|file|system> <target>` — Log analysis and error pattern detection
-- `/yaml <validate|fix|diff|convert|merge> <file>` — YAML validation and transformation
+- `/network-debug <source> cannot reach <target>` — Network diagnosis
+- `/logs <k8s|cloudwatch|file|system> <target>` — Log analysis
+- `/yaml <validate|fix|diff|convert|merge> <file>` — YAML operations
 - `/pipeline <debug|review|create|status>` — CI/CD pipeline operations
-- `/loadtest <generate|analyze|plan>` — Load and performance testing
+- `/loadtest <generate|analyze|plan>` — Load testing
 - `/api-review <review|breaking|validate|design>` — API design review
 
+**Application Development:**
+- `/java <new|debug|spring|build|migrate|review>` — Java/Spring Boot development
+- `/python-dev <new|debug|fastapi|django|test|review>` — Python development
+- `/go-dev <new|debug|api|test|profile|review>` — Go development
+- `/rust-dev <new|debug|api|test|review|unsafe-audit>` — Rust development
+- `/frontend <component|page|state|test|a11y|perf|review>` — Frontend development (React/Vue/Svelte/Angular)
+- `/test <generate|e2e|integration|coverage|flaky|strategy>` — Test generation and QA
+- `/api <design|breaking|validate|mock|client|docs>` — API design and client generation
+- `/auth <flow|jwt|rbac|oauth|review|session>` — Authentication and authorization
+- `/perf <profile|cache|bundle|query|vitals|benchmark>` — Performance analysis
+- `/data-model <design|migrate|review|seed|query>` — Data modeling
+- `/monorepo <setup|deps|build|shared-types|ci>` — Monorepo management
+
 **Planning & Migration:**
-- `/migrate <k8s-upgrade|cluster|account|service|database>` — Infrastructure migration planning
+- `/migrate <k8s-upgrade|cluster|account|service|database>` — Migration planning
 
 **Workflow Compositions:**
 - `/deploy-review` — Pre-deployment gate (infra + compliance + secrets + cost)
 - `/onboard-cluster` — Map an unfamiliar K8s cluster
 - `/pre-merge` — Pre-merge quality gate (code review + security + secrets)
+- `/service-review` — Full service quality gate (code + tests + perf + security + API)
+- `/feature-check` — Pre-push validation (tests + lint + type-check + build)
+- `/tech-debt` — Technical debt assessment
 
 **Scaffolding:**
-- `/scaffold <terraform-module|helm-chart|github-actions|service>` — Generate project scaffolds
+- `/scaffold <terraform-module|helm-chart|github-actions|service>` — Project scaffolds
 
 **General Development:**
 - `/commit` — Smart commits with conventional commit messages
@@ -66,68 +82,54 @@ Agents are specialized assistants that Claude delegates to automatically:
 
 **DevOps & Infrastructure:**
 - **sre** — Incident investigation, reliability assessment, monitoring review
-- **terraform-reviewer** — Terraform code review for security, cost, and best practices
+- **terraform-reviewer** — Terraform code review
 - **k8s-ops** — Cluster health, pod debugging, manifest review
-- **kops-manager** — Kops cluster operations, upgrades, troubleshooting, instance groups
-- **helm-ops** — Helm release debugging, chart review, values diffing
-- **cloud-architect** — AWS architecture design, migration planning, trade-off analysis
-- **iam-analyzer** — IAM permission tracing, least-privilege policies, IRSA review
-- **compliance-checker** — CIS, SOC2, PCI audits with specific remediation guidance
-- **capacity-planner** — Resource right-sizing, forecasting, reserved instance planning
-- **secrets-auditor** — Secret leak detection, rotation audit, management review
-- **observability-ops** — Prometheus rules, Grafana dashboards, alerting, SLO design
-- **db-ops** — Query optimization, schema review, RDS/DynamoDB/Redis debugging
-- **container-security** — Dockerfile review, image scanning, supply chain, runtime security
-- **dependency-checker** — Vulnerability scanning, upgrade planning, license compliance
+- **kops-manager** — Kops cluster operations
+- **helm-ops** — Helm release debugging, chart review
+- **cloud-architect** — AWS architecture design, trade-off analysis
+- **iam-analyzer** — IAM permission tracing, IRSA review
+- **compliance-checker** — CIS, SOC2, PCI audits
+- **capacity-planner** — Resource right-sizing, forecasting
+- **secrets-auditor** — Secret leak detection, rotation audit
+- **observability-ops** — Prometheus rules, Grafana, SLO design
+- **db-ops** — Query optimization, RDS/DynamoDB/Redis
+- **container-security** — Dockerfile review, image scanning
+- **dependency-checker** — Vulnerability scanning, license compliance
 
 **Networking & Debugging:**
-- **network-debugger** — DNS, SGs, NACLs, VPC routing, K8s networking, service mesh
-- **log-analyzer** — Error pattern detection, cross-service correlation, timeline analysis
-- **yaml-surgeon** — YAML validation, schema awareness, structural diff, common pitfalls
-- **pipeline-ops** — CI/CD debugging for GitHub Actions, ArgoCD, Jenkins, GitLab CI
-- **migration-planner** — Phased migration plans with rollback strategies
+- **network-debugger** — DNS, SGs, NACLs, VPC routing
+- **log-analyzer** — Error pattern detection, cross-service correlation
+- **yaml-surgeon** — YAML validation, schema awareness
+- **pipeline-ops** — CI/CD debugging
+- **migration-planner** — Phased migration plans
+
+**Application Development:**
+- **java-expert** — Java/JVM, Spring Boot, Maven/Gradle, JPA
+- **python-dev** — Python, FastAPI, Django, SQLAlchemy, async
+- **go-dev** — Go, Gin/Echo, GORM, goroutines, modules
+- **rust-dev** — Rust, Axum/Actix, Tokio, ownership, unsafe review
+- **frontend-dev** — React, Vue, Next.js, Svelte, Angular, CSS
+- **qa-engineer** — Test strategy, coverage, flaky tests, E2E
+- **api-designer** — REST, GraphQL, gRPC, OpenAPI, contracts
+- **auth-specialist** — OAuth2, JWT, RBAC, session management
+- **perf-optimizer** — Profiling, caching, query optimization
+- **data-modeler** — Schema design, migrations, ORM patterns
+- **fullstack-ops** — Monorepo, API client generation, shared types
 
 **General Development:**
-- **code-reviewer** — Reviews code changes for quality, security, and best practices
-- **debugger** — Diagnoses test failures and runtime errors
-- **architect** — Designs system architecture and evaluates trade-offs
-- **researcher** — Deep dives into codebases and technical topics
+- **code-reviewer** — Code quality, security, best practices review
+- **debugger** — Test failure and runtime error diagnosis
+- **architect** — System architecture and trade-offs
+- **researcher** — Deep codebase and technical research
 
 ## Project Structure
 ```
 .claude/
 ├── settings.json          # Shared project settings
-├── skills/                # 35 slash commands
-│   ├── terraform/         ├── helm/          ├── iam/
-│   ├── k8s/               ├── incident/      ├── compliance/
-│   ├── kops/              ├── infra-review/   ├── capacity/
-│   ├── aws/               ├── cost-review/    ├── secrets/
-│   ├── yaml/              ├── logs/           ├── network-debug/
-│   ├── pipeline/          ├── migrate/        ├── monitor/
-│   ├── db/                ├── docker/         ├── deps/
-│   ├── dns/               ├── loadtest/       ├── dr/
-│   ├── api-review/        ├── deploy-review/  ├── onboard-cluster/
-│   ├── pre-merge/         ├── scaffold/
-│   ├── commit/            ├── pr-review/      ├── deep-research/
-│   ├── code-audit/        ├── doc-gen/        └── refactor/
-├── agents/                # 23 specialized agents
-│   ├── sre/               ├── helm-ops/       ├── iam-analyzer/
-│   ├── terraform-reviewer/├── compliance-checker/├── capacity-planner/
-│   ├── k8s-ops/           ├── secrets-auditor/├── network-debugger/
-│   ├── kops-manager/      ├── log-analyzer/   ├── yaml-surgeon/
-│   ├── cloud-architect/   ├── pipeline-ops/   ├── migration-planner/
-│   ├── observability-ops/ ├── db-ops/         ├── container-security/
-│   ├── dependency-checker/
-│   ├── code-reviewer/     ├── debugger/
-│   ├── architect/         └── researcher/
-├── rules/                 # 15 context-specific coding rules
-│   ├── terraform.md       ├── kubernetes.md   ├── kops.md
-│   ├── aws.md             ├── docker.md       ├── cicd.md
-│   ├── code-style.md      ├── testing.md      ├── security.md
-│   ├── git.md             ├── python.md       ├── golang.md
-│   ├── typescript.md      ├── helm-charts.md  └── monitoring.md
+├── skills/                # 49 slash commands
+├── agents/                # 34 specialized agents
+├── rules/                 # 26 context-specific coding rules
 └── hooks/                 # Lifecycle hook scripts
-    ├── post-edit.sh       └── pre-commit-secrets.sh
 ```
 
 ## Adding New Skills
