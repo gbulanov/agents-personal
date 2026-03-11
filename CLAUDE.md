@@ -48,7 +48,10 @@ Skills are invoked with `/<skill-name>` in Claude Code:
 - `/go-dev <new|debug|api|test|profile|review>` — Go development
 - `/rust-dev <new|debug|api|test|review|unsafe-audit>` — Rust development
 - `/frontend <component|page|state|test|a11y|perf|review>` — Frontend development (React/Vue/Svelte/Angular)
-- `/test <generate|e2e|integration|coverage|flaky|strategy>` — Test generation and QA
+- `/test <generate|e2e|integration|coverage|flaky|strategy|setup>` — Test orchestrator and QA
+- `/test-backend <unit|integration|db|queue|worker|contract|fixture>` — Backend test automation
+- `/test-frontend <component|e2e|visual|a11y|hook|integration|snapshot>` — Frontend test automation
+- `/test-api <rest|graphql|contract|schema|load|mock|smoke>` — API test automation
 - `/api <design|breaking|validate|mock|client|docs>` — API design and client generation
 - `/auth <flow|jwt|rbac|oauth|review|session>` — Authentication and authorization
 - `/perf <profile|cache|bundle|query|vitals|benchmark>` — Performance analysis
@@ -109,7 +112,10 @@ Agents are specialized assistants that Claude delegates to automatically:
 - **go-dev** — Go, Gin/Echo, GORM, goroutines, modules
 - **rust-dev** — Rust, Axum/Actix, Tokio, ownership, unsafe review
 - **frontend-dev** — React, Vue, Next.js, Svelte, Angular, CSS
-- **qa-engineer** — Test strategy, coverage, flaky tests, E2E
+- **qa-engineer** — QA orchestrator, delegates to backend/frontend/api test engineers
+- **backend-test-engineer** — Backend test automation (unit, DB, queue, contract tests)
+- **frontend-test-engineer** — Frontend test automation (component, E2E, visual, a11y)
+- **api-test-engineer** — API test automation (REST, GraphQL, contract, load, mock)
 - **api-designer** — REST, GraphQL, gRPC, OpenAPI, contracts
 - **auth-specialist** — OAuth2, JWT, RBAC, session management
 - **perf-optimizer** — Profiling, caching, query optimization
@@ -126,9 +132,9 @@ Agents are specialized assistants that Claude delegates to automatically:
 ```
 .claude/
 ├── settings.json          # Shared project settings
-├── skills/                # 49 slash commands
-├── agents/                # 34 specialized agents
-├── rules/                 # 26 context-specific coding rules
+├── skills/                # 52 slash commands
+├── agents/                # 37 specialized agents
+├── rules/                 # 29 context-specific coding rules
 └── hooks/                 # Lifecycle hook scripts
 ```
 

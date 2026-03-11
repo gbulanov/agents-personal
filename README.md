@@ -2,7 +2,7 @@
 
 A collection of reusable [Claude Code](https://docs.anthropic.com/en/docs/claude-code) agents and skills for DevOps, SRE, cloud engineering, application development, and software engineering workflows.
 
-**34 agents** | **49 skills** | **26 rule files** — ready to drop into any project.
+**37 agents** | **52 skills** | **29 rule files** — ready to drop into any project.
 
 ## What This Is
 
@@ -77,7 +77,7 @@ Example commands:
 | `/loadtest` | `generate` `analyze` `plan` | Load testing |
 | `/api-review` | `review` `breaking` `validate` `design` | API design review |
 
-### Application Development (11 skills)
+### Application Development (14 skills)
 
 | Skill | Actions | Description |
 |-------|---------|-------------|
@@ -86,7 +86,10 @@ Example commands:
 | `/go-dev` | `new` `debug` `api` `test` `profile` `review` | Go/Gin/Echo |
 | `/rust-dev` | `new` `debug` `api` `test` `review` `unsafe-audit` | Rust/Axum/Actix |
 | `/frontend` | `component` `page` `state` `test` `a11y` `perf` `review` | React/Vue/Svelte/Angular |
-| `/test` | `generate` `e2e` `integration` `coverage` `flaky` `strategy` | Testing & QA |
+| `/test` | `generate` `e2e` `integration` `coverage` `flaky` `strategy` `setup` | Test orchestrator — routes to specialists |
+| `/test-backend` | `unit` `integration` `db` `queue` `worker` `contract` `fixture` | Backend test automation |
+| `/test-frontend` | `component` `e2e` `visual` `a11y` `hook` `integration` `snapshot` | Frontend test automation |
+| `/test-api` | `rest` `graphql` `contract` `schema` `load` `mock` `smoke` | API test automation |
 | `/api` | `design` `breaking` `validate` `mock` `client` `docs` | API design & clients |
 | `/auth` | `flow` `jwt` `rbac` `oauth` `review` `session` | Auth & authorization |
 | `/perf` | `profile` `cache` `bundle` `query` `vitals` `benchmark` | Performance |
@@ -155,7 +158,7 @@ Example commands:
 | **pipeline-ops** | Sonnet | CI/CD debugging (GH Actions, ArgoCD, Jenkins) |
 | **migration-planner** | Opus | Phased migration plans with rollback |
 
-### Application Development (11 agents)
+### Application Development (14 agents)
 
 | Agent | Model | What It Does |
 |-------|-------|-------------|
@@ -164,7 +167,10 @@ Example commands:
 | **go-dev** | Sonnet | Gin/Echo, GORM, goroutines, modules, pprof |
 | **rust-dev** | Sonnet | Axum/Actix, Tokio, ownership, unsafe review |
 | **frontend-dev** | Sonnet | React, Vue, Next.js, Svelte, Angular, CSS, a11y |
-| **qa-engineer** | Sonnet | Test strategy, coverage, flaky tests, E2E |
+| **qa-engineer** | Sonnet | QA orchestrator — delegates to test specialists |
+| **backend-test-engineer** | Sonnet | Unit, DB, queue, worker, contract test automation |
+| **frontend-test-engineer** | Sonnet | Component, E2E, visual regression, a11y testing |
+| **api-test-engineer** | Sonnet | REST, GraphQL, contract, load test, mock servers |
 | **api-designer** | Sonnet | REST, GraphQL, gRPC, OpenAPI, contracts |
 | **auth-specialist** | Sonnet | OAuth2, JWT, RBAC, OIDC, session management |
 | **perf-optimizer** | Sonnet | Profiling, caching, query tuning, Core Web Vitals |
@@ -217,13 +223,16 @@ Example commands:
 | **fastapi.md** | FastAPI routes | Pydantic models, `Depends()`, async |
 | **django.md** | Django files | Fat models, select_related, managers |
 
-### Cross-Cutting Rules (8)
+### Cross-Cutting Rules (11)
 
 | Rule | Applies To | Key Focus |
 |------|-----------|-----------|
 | **code-style.md** | All code | Naming, function size, imports |
 | **testing.md** | All tests | Behavior testing, AAA, edge cases |
 | **testing-patterns.md** | Test files | Factories, no sleep, mock at boundaries |
+| **backend-testing.md** | Backend test files | TestContainers, mocking, contract tests, queues |
+| **frontend-testing.md** | Frontend test files | Role selectors, Playwright, visual reg, a11y |
+| **api-testing.md** | API test files | REST endpoints, GraphQL, Pact, schema validation |
 | **security.md** | All files | No secrets, input validation, HTTPS |
 | **git.md** | Git operations | Conventional commits, atomic changes |
 | **api-conventions.md** | Route/handler files | REST semantics, error format, pagination |
@@ -250,9 +259,9 @@ Runs after Write/Edit. Customize per project for auto-formatting/linting.
 ```
 .claude/
 ├── settings.json              # Permissions, hooks, project config
-├── skills/                    # 49 slash commands
-├── agents/                    # 34 specialized agents
-├── rules/                     # 26 context-specific rule files
+├── skills/                    # 52 slash commands
+├── agents/                    # 37 specialized agents
+├── rules/                     # 29 context-specific rule files
 └── hooks/                     # Lifecycle hook scripts
 ```
 
