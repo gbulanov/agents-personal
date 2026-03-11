@@ -27,15 +27,31 @@ Skills are invoked with `/<skill-name>` in Claude Code:
 - `/compliance <cis-aws|cis-k8s|soc2|pci|all>` — Compliance audit against security benchmarks
 - `/capacity <analyze|rightsize|forecast|nodes>` — Resource utilization and capacity planning
 - `/secrets <scan|audit|rotation|review>` — Secret leak detection and management audit
+- `/monitor <alerts|slo|dashboards|cloudwatch|review>` — Monitoring and observability
+- `/db <review|optimize|health|migration|connections>` — Database operations
+- `/docker <review|scan|harden|compose>` — Container security
+- `/deps <audit|outdated|licenses|upgrade-plan>` — Dependency management
+- `/dns <query|debug|audit|records>` — DNS operations
+- `/dr <audit|plan|runbook|test>` — Disaster recovery
 
 **Networking & Debugging:**
 - `/network-debug <source> cannot reach <target>` — Systematic network connectivity diagnosis
 - `/logs <k8s|cloudwatch|file|system> <target>` — Log analysis and error pattern detection
 - `/yaml <validate|fix|diff|convert|merge> <file>` — YAML validation and transformation
 - `/pipeline <debug|review|create|status>` — CI/CD pipeline operations
+- `/loadtest <generate|analyze|plan>` — Load and performance testing
+- `/api-review <review|breaking|validate|design>` — API design review
 
-**Planning:**
+**Planning & Migration:**
 - `/migrate <k8s-upgrade|cluster|account|service|database>` — Infrastructure migration planning
+
+**Workflow Compositions:**
+- `/deploy-review` — Pre-deployment gate (infra + compliance + secrets + cost)
+- `/onboard-cluster` — Map an unfamiliar K8s cluster
+- `/pre-merge` — Pre-merge quality gate (code review + security + secrets)
+
+**Scaffolding:**
+- `/scaffold <terraform-module|helm-chart|github-actions|service>` — Generate project scaffolds
 
 **General Development:**
 - `/commit` — Smart commits with conventional commit messages
@@ -59,6 +75,10 @@ Agents are specialized assistants that Claude delegates to automatically:
 - **compliance-checker** — CIS, SOC2, PCI audits with specific remediation guidance
 - **capacity-planner** — Resource right-sizing, forecasting, reserved instance planning
 - **secrets-auditor** — Secret leak detection, rotation audit, management review
+- **observability-ops** — Prometheus rules, Grafana dashboards, alerting, SLO design
+- **db-ops** — Query optimization, schema review, RDS/DynamoDB/Redis debugging
+- **container-security** — Dockerfile review, image scanning, supply chain, runtime security
+- **dependency-checker** — Vulnerability scanning, upgrade planning, license compliance
 
 **Networking & Debugging:**
 - **network-debugger** — DNS, SGs, NACLs, VPC routing, K8s networking, service mesh
@@ -77,29 +97,37 @@ Agents are specialized assistants that Claude delegates to automatically:
 ```
 .claude/
 ├── settings.json          # Shared project settings
-├── skills/                # 22 slash commands
+├── skills/                # 35 slash commands
 │   ├── terraform/         ├── helm/          ├── iam/
 │   ├── k8s/               ├── incident/      ├── compliance/
 │   ├── kops/              ├── infra-review/   ├── capacity/
 │   ├── aws/               ├── cost-review/    ├── secrets/
 │   ├── yaml/              ├── logs/           ├── network-debug/
-│   ├── pipeline/          ├── migrate/
+│   ├── pipeline/          ├── migrate/        ├── monitor/
+│   ├── db/                ├── docker/         ├── deps/
+│   ├── dns/               ├── loadtest/       ├── dr/
+│   ├── api-review/        ├── deploy-review/  ├── onboard-cluster/
+│   ├── pre-merge/         ├── scaffold/
 │   ├── commit/            ├── pr-review/      ├── deep-research/
 │   ├── code-audit/        ├── doc-gen/        └── refactor/
-├── agents/                # 19 specialized agents
+├── agents/                # 23 specialized agents
 │   ├── sre/               ├── helm-ops/       ├── iam-analyzer/
 │   ├── terraform-reviewer/├── compliance-checker/├── capacity-planner/
 │   ├── k8s-ops/           ├── secrets-auditor/├── network-debugger/
 │   ├── kops-manager/      ├── log-analyzer/   ├── yaml-surgeon/
 │   ├── cloud-architect/   ├── pipeline-ops/   ├── migration-planner/
+│   ├── observability-ops/ ├── db-ops/         ├── container-security/
+│   ├── dependency-checker/
 │   ├── code-reviewer/     ├── debugger/
 │   ├── architect/         └── researcher/
-├── rules/                 # Context-specific coding rules
+├── rules/                 # 15 context-specific coding rules
 │   ├── terraform.md       ├── kubernetes.md   ├── kops.md
 │   ├── aws.md             ├── docker.md       ├── cicd.md
-│   ├── code-style.md      ├── testing.md
-│   ├── security.md        └── git.md
+│   ├── code-style.md      ├── testing.md      ├── security.md
+│   ├── git.md             ├── python.md       ├── golang.md
+│   ├── typescript.md      ├── helm-charts.md  └── monitoring.md
 └── hooks/                 # Lifecycle hook scripts
+    ├── post-edit.sh       └── pre-commit-secrets.sh
 ```
 
 ## Adding New Skills

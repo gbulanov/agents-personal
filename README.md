@@ -2,7 +2,7 @@
 
 A collection of reusable [Claude Code](https://docs.anthropic.com/en/docs/claude-code) agents and skills for DevOps, SRE, cloud engineering, and software development workflows.
 
-**19 agents** | **23 skills** | **10 rule files** — ready to drop into any project.
+**23 agents** | **35 skills** | **15 rule files** — ready to drop into any project.
 
 ## What This Is
 
@@ -11,6 +11,7 @@ A personal library of Claude Code extensions:
 - **Agents** — specialized subagents that Claude delegates to automatically for complex tasks
 - **Skills** — slash commands (`/terraform`, `/k8s`, etc.) that encode repeatable workflows
 - **Rules** — context-specific coding conventions applied automatically based on file patterns
+- **Hooks** — lifecycle scripts (pre-commit secret scanning, post-edit validation)
 
 Clone or symlink the `.claude/` directory into any project to get a fully-equipped AI-powered DevOps toolkit.
 
@@ -35,6 +36,11 @@ Once set up, use skills with slash commands:
 > /logs k8s my-deployment production
 > /compliance cis-aws
 > /secrets scan
+> /deploy-review
+> /onboard-cluster
+> /scaffold helm-chart my-service
+> /monitor slo my-api
+> /db health my-rds-instance
 ```
 
 Agents are invoked automatically by Claude when the task matches their specialization.
@@ -59,6 +65,12 @@ Agents are invoked automatically by Claude when the task matches their specializ
 | `/compliance` | `cis-aws` `cis-k8s` `soc2` `pci` `all` | Compliance audit against security benchmarks |
 | `/capacity` | `analyze` `rightsize` `forecast` `nodes` | Resource utilization and capacity planning |
 | `/secrets` | `scan` `audit` `rotation` `review` | Secret leak detection and management audit |
+| `/monitor` | `alerts` `slo` `dashboards` `cloudwatch` `review` | Monitoring, alerting, and SLO design |
+| `/db` | `review` `optimize` `health` `migration` `connections` | Database operations and query optimization |
+| `/docker` | `review` `scan` `harden` `compose` | Container security and Dockerfile review |
+| `/deps` | `audit` `outdated` `licenses` `upgrade-plan` | Dependency vulnerability and license scanning |
+| `/dns` | `query` `debug` `audit` `records` | DNS operations and Route53 management |
+| `/dr` | `audit` `plan` `runbook` `test` | Disaster recovery and backup audit |
 
 ### Networking & Debugging
 
@@ -68,6 +80,8 @@ Agents are invoked automatically by Claude when the task matches their specializ
 | `/logs` | `k8s` `cloudwatch` `file` `system` | Log analysis and error pattern detection |
 | `/yaml` | `validate` `fix` `diff` `convert` `merge` | YAML validation and transformation |
 | `/pipeline` | `debug` `review` `create` `status` | CI/CD pipeline operations |
+| `/loadtest` | `generate` `analyze` `plan` | Load test generation and result analysis |
+| `/api-review` | `review` `breaking` `validate` `design` | API design review and OpenAPI validation |
 
 ### Planning
 
@@ -75,16 +89,32 @@ Agents are invoked automatically by Claude when the task matches their specializ
 |-------|---------|-------------|
 | `/migrate` | `k8s-upgrade` `cluster` `account` `service` `database` | Infrastructure migration planning |
 
+### Workflow Compositions
+
+Composite skills that chain multiple checks into a single gate.
+
+| Skill | Runs | Description |
+|-------|------|-------------|
+| `/deploy-review` | infra-review + compliance + secrets + cost | Pre-deployment quality gate |
+| `/onboard-cluster` | nodes + workloads + helm + capacity + networking | Map an unfamiliar K8s cluster |
+| `/pre-merge` | code review + security audit + secret scan | Pre-merge quality gate |
+
+### Scaffolding
+
+| Skill | Templates | Description |
+|-------|-----------|-------------|
+| `/scaffold` | `terraform-module` `helm-chart` `github-actions` `service` | Generate production-ready project scaffolds |
+
 ### General Development
 
-| Skill | Actions | Description |
-|-------|---------|-------------|
-| `/commit` | — | Smart commits with conventional commit messages |
-| `/pr-review` | — | Review a pull request for quality and issues |
-| `/deep-research` | — | Thorough codebase or topic research |
-| `/code-audit` | — | Security and quality audit |
-| `/doc-gen` | — | Generate documentation for code |
-| `/refactor` | — | Refactor code with safety checks |
+| Skill | Description |
+|-------|-------------|
+| `/commit` | Smart commits with conventional commit messages |
+| `/pr-review` | Review a pull request for quality and issues |
+| `/deep-research` | Thorough codebase or topic research |
+| `/code-audit` | Security and quality audit |
+| `/doc-gen` | Generate documentation for code |
+| `/refactor` | Refactor code with safety checks |
 
 ---
 
@@ -105,7 +135,11 @@ Agents are automatically delegated to by Claude when tasks match their specializ
 | **iam-analyzer** | Sonnet | Permission chain tracing, least-privilege policies, IRSA/OIDC, escalation paths |
 | **compliance-checker** | Sonnet | CIS AWS/K8s, SOC2, PCI-DSS audits with specific Terraform/K8s remediation |
 | **capacity-planner** | Sonnet | Resource right-sizing, node pool optimization, RI/Savings Plans, forecasting |
-| **secrets-auditor** | Sonnet | Hardcoded secret detection, git history scanning, rotation audit, management review |
+| **secrets-auditor** | Sonnet | Hardcoded secret detection, git history scanning, rotation audit |
+| **observability-ops** | Sonnet | Prometheus rules, Grafana dashboards, CloudWatch alarms, SLO/SLI design |
+| **db-ops** | Sonnet | Query optimization, schema review, connection pooling, RDS/DynamoDB/Redis |
+| **container-security** | Sonnet | Dockerfile review, image scanning, supply chain (SBOM/signing), runtime policies |
+| **dependency-checker** | Sonnet | Vulnerability scanning, upgrade planning, breaking changes, license compliance |
 
 ### Networking & Debugging
 
@@ -132,6 +166,8 @@ Agents are automatically delegated to by Claude when tasks match their specializ
 
 Rules are automatically applied based on file patterns. They enforce conventions without manual invocation.
 
+### Infrastructure Rules
+
 | Rule | Applies To | Key Conventions |
 |------|-----------|----------------|
 | **terraform.md** | `*.tf` files | Module structure, naming, state management, security |
@@ -140,10 +176,44 @@ Rules are automatically applied based on file patterns. They enforce conventions
 | **aws.md** | AWS infrastructure | Tagging, encryption, least privilege, multi-AZ |
 | **docker.md** | Dockerfiles | Multi-stage builds, non-root users, layer caching |
 | **cicd.md** | Workflows/pipelines | Pin actions to SHA, timeouts, concurrency, secrets |
+| **helm-charts.md** | Chart.yaml, values.yaml | Standard labels, secure defaults, value documentation |
+| **monitoring.md** | Alert rules, dashboards | Severity labels, runbook links, RED/USE methods |
+
+### Language Rules
+
+| Rule | Applies To | Key Conventions |
+|------|-----------|----------------|
+| **python.md** | `*.py` | Type hints, ruff/black formatting, pathlib, logging |
+| **golang.md** | `*.go` | Error wrapping, small interfaces, context.Context, table tests |
+| **typescript.md** | `*.ts`, `*.tsx` | Strict mode, no `any`, discriminated unions, zod validation |
+
+### General Rules
+
+| Rule | Applies To | Key Conventions |
+|------|-----------|----------------|
 | **code-style.md** | All code | Naming, function size, error handling, imports |
 | **testing.md** | Test files | Behavior testing, AAA structure, edge cases |
 | **security.md** | All files | No hardcoded secrets, input validation, HTTPS |
 | **git.md** | Git operations | Conventional commits, atomic changes, no force-push |
+
+---
+
+## Hooks
+
+### Pre-Commit Secret Scanner
+
+Scans staged files for hardcoded secrets before every commit.
+
+```bash
+# Install into your project
+ln -s $(pwd)/.claude/hooks/pre-commit-secrets.sh .git/hooks/pre-commit
+```
+
+Detects: AWS keys, private keys, passwords, connection strings, GitHub PATs, Slack tokens, JWTs, API keys (OpenAI/Anthropic/Stripe).
+
+### Post-Edit Hook
+
+Runs after every Write/Edit tool call. Customize per project for auto-formatting or linting.
 
 ---
 
@@ -153,41 +223,63 @@ Rules are automatically applied based on file patterns. They enforce conventions
 .claude/
 ├── settings.json              # Permissions, hooks, project config
 │
-├── skills/                    # 23 slash commands
+├── skills/                    # 35 slash commands
+│   │
+│   │  DevOps & Infrastructure
 │   ├── terraform/             ├── helm/              ├── iam/
 │   ├── k8s/                   ├── incident/          ├── compliance/
 │   ├── kops/                  ├── infra-review/      ├── capacity/
 │   ├── aws/                   ├── cost-review/       ├── secrets/
+│   ├── monitor/               ├── db/                ├── docker/
+│   ├── deps/                  ├── dns/               ├── dr/
+│   │
+│   │  Networking & Debugging
 │   ├── yaml/                  ├── logs/              ├── network-debug/
-│   ├── pipeline/              ├── migrate/
+│   ├── pipeline/              ├── loadtest/          ├── api-review/
+│   │
+│   │  Planning & Migration
+│   ├── migrate/
+│   │
+│   │  Workflow Compositions
+│   ├── deploy-review/         ├── onboard-cluster/   ├── pre-merge/
+│   │
+│   │  Scaffolding
+│   ├── scaffold/
+│   │
+│   │  General Development
 │   ├── commit/                ├── pr-review/         ├── deep-research/
 │   ├── code-audit/            ├── doc-gen/           └── refactor/
 │
-├── agents/                    # 19 specialized agents
+├── agents/                    # 23 specialized agents
 │   ├── sre/                   ├── helm-ops/          ├── iam-analyzer/
 │   ├── terraform-reviewer/    ├── compliance-checker/ ├── capacity-planner/
 │   ├── k8s-ops/               ├── secrets-auditor/   ├── network-debugger/
 │   ├── kops-manager/          ├── log-analyzer/      ├── yaml-surgeon/
 │   ├── cloud-architect/       ├── pipeline-ops/      ├── migration-planner/
+│   ├── observability-ops/     ├── db-ops/            ├── container-security/
+│   ├── dependency-checker/
 │   ├── code-reviewer/         ├── debugger/
 │   ├── architect/             └── researcher/
 │
-├── rules/                     # 10 context-specific rule files
+├── rules/                     # 15 context-specific rule files
 │   ├── terraform.md           ├── kubernetes.md      ├── kops.md
 │   ├── aws.md                 ├── docker.md          ├── cicd.md
+│   ├── helm-charts.md         ├── monitoring.md
+│   ├── python.md              ├── golang.md          ├── typescript.md
 │   ├── code-style.md          ├── testing.md
 │   ├── security.md            └── git.md
 │
 └── hooks/                     # Lifecycle hook scripts
-    └── post-edit.sh
+    ├── post-edit.sh           # Auto-format/lint after edits
+    └── pre-commit-secrets.sh  # Block commits with hardcoded secrets
 ```
 
 ## Settings
 
 The `settings.json` configures:
 
-- **Allowed commands** — Read-only operations auto-approved (kubectl get, aws describe, helm list, terraform plan, etc.)
-- **Denied commands** — Destructive operations blocked (terraform destroy, kubectl delete namespace, force-push to main, etc.)
+- **Allowed commands** — Read-only operations auto-approved: `kubectl get`, `aws describe`, `helm list`, `terraform plan`, `trivy`, `dig`, `npm audit`, `pip-audit`, `govulncheck`, and more
+- **Denied commands** — Destructive operations blocked: `terraform destroy`, `kubectl delete namespace`, `force-push to main`, `aws terminate-instances`, `kops delete`
 - **Hooks** — Post-edit hooks for linting and validation
 
 ## Extending
@@ -242,6 +334,12 @@ paths:
 
 Conventions to enforce...
 EOF
+```
+
+### Install the Pre-Commit Hook
+
+```bash
+ln -s $(pwd)/.claude/hooks/pre-commit-secrets.sh .git/hooks/pre-commit
 ```
 
 ## License
